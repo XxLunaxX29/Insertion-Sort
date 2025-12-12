@@ -1,28 +1,48 @@
 ﻿
+using Insertion_Sort;
+using System;
+using System.Diagnostics;
+
+
 internal class Program
 {
-    
+    private static Random Random = new Random();
+
     static void Main(string[] args)
     {
-        Console.Write("Arreglo desordenado :"); 
-        int[] arr = { 5, 7, 2, 8, 3, 9, 15};
-        Console.WriteLine(string.Join(", ", arr));
-        for (int i = 1; i < arr.Length; i++)
+        int size;
+        string datas;
+        Console.WriteLine("Escribe el numero de elementos que deseas");
+        datas = Console.ReadLine();
+        while (!int.TryParse(datas, out size) || size <= 0)
         {
-            int actual = arr[i];
-                
-            int j = i-1;
-            while (j >= 0 && arr[j] > actual)
-            {
-                arr[j + 1] = arr[j];
-                j--;
-            }
-            arr[j+1] = actual;
+            Console.WriteLine("Ingresa un número válido mayor a 0");
+            datas = Console.ReadLine();
+            
         }
+        Order.SwapCount = 0;
+        Order.ComparisonCount = 0;
 
-        Console.WriteLine("__________________________");
-        Console.Write("Arreglo ordenado :");
-        Console.WriteLine(string.Join(", ", arr));   
+        int[] array = new int[size];
+        for (int i = 0; i < size; i++)
+        array[i] = Random.Next(0, 101);
+
+        Console.WriteLine("Arreglo desordenado");
+        Console.WriteLine(string.Join(", ", array));
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        Console.WriteLine("--------------------------------------------------------------");
+       
+        Order.InsertSort(array);
+        stopwatch.Stop();
+
+        Console.WriteLine("Arreglo ordenado");
+        Console.WriteLine(string.Join(", ", array));
+        Console.Write("Intercambios:  ");
+        Console.WriteLine(Order.SwapCount.ToString());
+        Console.Write("Comparciones:  ");
+        Console.WriteLine(Order.ComparisonCount.ToString());
+        Console.Write("Tiempo  :");
+        Console.WriteLine(stopwatch.Elapsed.ToString());
         Console.ReadKey();
     }
 }
